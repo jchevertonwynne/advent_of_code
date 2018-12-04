@@ -1,11 +1,15 @@
+#!/usr/local/bin/python3
+
 import numpy as np
 import time
 import parse
 
+input_filename = "input/input_day3.txt"
+
 def generate_usage_grid_and_vals():
     grid = np.zeros((1000, 1000))
     vals = []
-    with open("input_day3.txt") as f:
+    with open(input_filename) as f:
         for row in f.readlines():
             id, x_start, y_start, x_size, y_size = map(int, parse.parse("#{} @ {},{}: {}x{}", row))
             grid[x_start:x_start + x_size, y_start:y_start + y_size] += 1

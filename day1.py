@@ -1,23 +1,26 @@
+#!/usr/local/bin/python3
+
 import time
+from itertools import cycle
+
+input_filename = "input/input_day1.txt"
 
 def part1():
-    with open("input_day1.txt") as f:
+    with open(input_filename) as f:
         vals = (int(x) for x in f.readlines())
         return(sum(vals))
 
 def part2():
     freqs = set((0,))
     freq = 0
-    with open("input_day1.txt") as f:
+    with open(input_filename) as f:
         vals = list(int(x) for x in f.readlines())
-        while True:
-            for val in vals:
-                freq += val
-                if freq in freqs:
-                    return freq
-                else:
-                    freqs.add(freq)
-                # print(len(freqs))
+        for val in cycle(vals):
+            freq += val
+            if freq in freqs:
+                return freq
+            else:
+                freqs.add(freq)
 
 start = time.time()
 print(part1())

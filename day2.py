@@ -1,5 +1,9 @@
+#!/usr/local/bin/python3
+
 from collections import Counter
 import time
+
+input_filename = "input/input_day2.txt"
 
 def part1():
     def has_num(totals, num):
@@ -11,7 +15,7 @@ def part1():
     twos_count = 0
     threes_count = 0
 
-    with open("input_day2.txt") as f:
+    with open(input_filename) as f:
         for id in f.readlines():
             totals = Counter(id).most_common()
             if has_num(totals, 2):
@@ -23,7 +27,7 @@ def part1():
 
 
 def part2():
-    with open("input_day2.txt") as f:
+    with open(input_filename) as f:
         ids = f.readlines()
         for ind, id1 in enumerate(ids):
             for id2 in ids[ind + 1:]:
