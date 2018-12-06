@@ -4,9 +4,9 @@ import numpy as np
 import time
 from parse import parse
 
-input_filename = "input/input_day3.txt"
+input_filename = "../input/input_day3.txt"
 
-def generate_usage_grid_and_vals():
+def setup():
     grid = np.zeros((1000, 1000))
     vals = []
     with open(input_filename) as f:
@@ -25,14 +25,25 @@ def part2(grid, vals):
             return id
     return None
 
-start = time.time()
-grid, vals = generate_usage_grid_and_vals()
-print(f"setup took {time.time() - start} seconds")
+def main():
+    start_setup = time.time()
+    grid, vals = setup()
+    end_setup = time.time()
 
-start = time.time()
-print(part1(grid))
-print(f"part 1 took {time.time() - start} seconds")
+    start_part1 = time.time()
+    res_part1 = part1(grid)
+    end_part1 = time.time()
 
-start = time.time()
-print(part2(grid, vals))
-print(f"part 2 took {time.time() - start} seconds")
+    start_part2= time.time()
+    res_part2 = part2(grid, vals)
+    end_part2 = time.time()
+
+    print(f"part 1: {res_part1}")
+    print(f"part 2: {res_part2}")
+    print(f"setup took {end_setup - start_setup} seconds")
+    print(f"part 1 took {end_part1 - start_part1} seconds")
+    print(f"part 2 took {end_part2 - start_part2} seconds")
+    print(f"overall took {end_part2 - start_setup} seconds")
+
+if __name__ == '__main__':
+    main()

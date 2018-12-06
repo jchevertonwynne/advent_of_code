@@ -3,7 +3,7 @@
 from collections import Counter
 import time
 
-input_filename = "input/input_day2.txt"
+input_filename = "../input/input_day2.txt"
 
 def has_num(totals, num):
     for i, v in totals:
@@ -20,7 +20,7 @@ def check_sim(str1, str2):
                 return False
     return True
 
-def get_vals():
+def setup():
     with open(input_filename) as f:
         return f.read().splitlines()
 
@@ -43,14 +43,25 @@ def part2(ids):
             if check_sim(id1, id2):
                 return "".join(x for x, y in zip(id1, id2) if x == y)
 
-start = time.time()
-vals = get_vals()
-print(f"setup took {time.time() - start} seconds")
+def main():
+    start_setup = time.time()
+    vals = setup()
+    end_setup = time.time()
 
-start = time.time()
-print(part1(vals))
-print(f"part 1 took {time.time() - start} seconds")
+    start_part1 = time.time()
+    res_part1 = part1(vals)
+    end_part1 = time.time()
 
-start = time.time()
-print(part2(vals))
-print(f"part 2 took {time.time() - start} seconds")
+    start_part2= time.time()
+    res_part2 = part2(vals)
+    end_part2 = time.time()
+
+    print(f"part 1: {res_part1}")
+    print(f"part 2: {res_part2}")
+    print(f"setup took {end_setup - start_setup} seconds")
+    print(f"part 1 took {end_part1 - start_part1} seconds")
+    print(f"part 2 took {end_part2 - start_part2} seconds")
+    print(f"overall took {end_part2 - start_setup} seconds")
+
+if __name__ == '__main__':
+    main()

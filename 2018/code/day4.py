@@ -1,10 +1,10 @@
-parse#!/usr/local/bin/python3
+#!/usr/local/bin/python3
 
 import time
 from parse import parse
 from collections import Counter
 
-input_filename = "input/input_day4.txt"
+input_filename = "../input/input_day4.txt"
 
 def parse_dates():
     records = []
@@ -16,7 +16,7 @@ def parse_dates():
     records.sort(key=lambda x: x[0])
     return records
 
-def compile_frequencies():
+def setup():
     guards = {}
     for date, time, action in parse_dates():
         if action.startswith('G'):
@@ -41,12 +41,25 @@ def part2(guards):
     id, min, freq = max(reduced, key=lambda x: x[2])
     return id * min
 
-start = time.time()
-guards = compile_frequencies()
-print(f"setup took {time.time() - start} seconds")
-start = time.time()
-print(part1(guards))
-print(f"part 1 took {time.time() - start} seconds")
-start = time.time()
-print(part2(guards))
-print(f"part 2 took {time.time() - start} seconds")
+def main():
+    start_setup = time.time()
+    guards = setup()
+    end_setup = time.time()
+
+    start_part1 = time.time()
+    res_part1 = part1(guards)
+    end_part1 = time.time()
+
+    start_part2= time.time()
+    res_part2 = part2(guards)
+    end_part2 = time.time()
+
+    print(f"part 1: {res_part1}")
+    print(f"part 2: {res_part2}")
+    print(f"setup took {end_setup - start_setup} seconds")
+    print(f"part 1 took {end_part1 - start_part1} seconds")
+    print(f"part 2 took {end_part2 - start_part2} seconds")
+    print(f"overall took {end_part2 - start_setup} seconds")
+
+if __name__ == '__main__':
+    main()
