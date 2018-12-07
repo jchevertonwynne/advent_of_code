@@ -7,7 +7,15 @@ from functools import reduce
 input_filename = "../input/input_day5.txt"
 
 def reduce_polarities(polymer):
-    return reduce(lambda a, b: a[:-1] if a[-1] != b and a[-1].upper() == b.upper() else a + b, "#" + polymer)[1:]
+    out = []
+    for char in polymer:
+        if not out:
+            out.append(char)
+        elif char != out[-1] and char.upper() == out[-1].upper():
+            out.pop()
+        else:
+            out.append(char)
+    return "".join(out)
 
 def setup():
     with open(input_filename) as f:

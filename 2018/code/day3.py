@@ -23,7 +23,6 @@ def part2(grid, vals):
     for id, x_start, y_start, x_size, y_size in vals:
         if (grid[x_start:x_start + x_size, y_start:y_start + y_size] == 1).all():
             return id
-    return None
 
 def main():
     start_setup = time.time()
