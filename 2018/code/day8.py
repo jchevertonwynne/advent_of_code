@@ -52,7 +52,7 @@ def part1(tree):
     return tree.metadata_sum()
 
 def part2(tree):
-    return Node.value(tree)
+    return tree.value(tree)
 
 def main():
     start_setup = time.time()
