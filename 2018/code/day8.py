@@ -5,60 +5,45 @@ import time
 input_filename = "../input/input_day8.txt"
 
 class Node:
-    def __init__(self, ind, child_remainging, data):
+    def __init__(self, ind, child_remainging, data_len):
         self.ind = ind
         self.child_remaining = child_remainging
-        self.data = data
+        self.data_len = data_len
         self.children = []
         self.data_vals = []
 
     def __repr__(self):
-        return f"Node(ind: {self.ind}, data:{self.data})"
-
-def find_value(node, values):
-    if node in values:
-        return values[node]
-    if not node.children:
-        values[node] = sum(node.data_vals)
-        return values[node]
-    total = 0
-    for data_val in node.data_vals:
-        if data_val < len(node.children) + 1:
-            next = node.children[data_val - 1]
-            total += find_value(next, values)
-    values[node] = total
-    return total
+        return f"Node(ind: {self.ind}, metadata items:{self.data_len}, children:{len(self.children)})"
 
 def setup():
     with open(input_filename) as f:
-        nums = [int(i) for i in f.read().split(' ')]
-    return nums
-
+        return [int(i) for i in f.read().split(' ')]
 
 def part1(nums):
-    total = 0
     stack = []
+    total = 0
+    ind = 0
     base = Node(0, nums[0], nums[1])
     stack.append(base)
-    ind = 0
     while stack:
         top = stack[-1]
         if top.child_remaining == 0:
             stack.pop()
-            top.data_vals = nums[(ind + 2):(ind + top.data + 2)]
+            top.data_vals = nums[(ind + 2):(ind + top.data_len + 2)]
             total += sum(top.data_vals)
-            ind += top.data
+            ind += top.data_len
         else:
             ind += 2
             next = Node(ind, nums[ind], nums[ind + 1])
             stack.append(next)
             top.child_remaining -= 1
             top.children.append(next)
-
     return base, total
 
-def part2(base):
-    return find_value(base, {})
+def part2(node):
+    if not node.children:
+        return sum(node.data_vals)
+    return sum(part2(node.children[data_val - 1]) for data_val in node.data_vals if data_val < len(node.children) + 1)
 
 def main():
     start_setup = time.time()
