@@ -3,6 +3,7 @@
 import time
 from parse import parse
 from string import ascii_uppercase
+from collections import defaultdict
 
 input_filename = "../input/input_day7.txt"
 
@@ -47,13 +48,10 @@ def process_active(done, active):
     return done, new_active
 
 def setup():
-    letters = {}
+    letters = defaultdict(set)
     with open(input_filename) as f:
         for ordering in f.read().splitlines():
             prior, next = parse('Step {} must be finished before step {} can begin.', ordering)
-            for letter in (prior, next):
-                if letter not in letters:
-                    letters[letter] = set()
             letters[next].add(prior)
     return letters
 
