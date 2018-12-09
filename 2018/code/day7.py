@@ -23,7 +23,7 @@ def get_next_options(done, reqs):
 
 def available_option(done, active, reqs):
     options = get_next_options(done, reqs)
-    active = list(map(lambda l: l.letter, active))
+    active = [l.letter for l in active]
     for option in options:
         if option not in done and option not in active:
             prior = reqs[option]

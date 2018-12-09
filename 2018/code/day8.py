@@ -22,7 +22,7 @@ class Node:
     def value(node):
         if not node.children:
             return sum(node.data_vals)
-        return sum(Node.value(node.children[data_val - 1]) for data_val in node.data_vals if data_val < len(node.children) + 1)
+        return sum(Node.value(node.children[data_val - 1]) for data_val in node.data_vals if data_val <= len(node.children))
 
 def read_file():
     with open(input_filename) as f:
@@ -56,15 +56,15 @@ def part2(tree):
 
 def main():
     start_setup = time.time()
-    base = setup()
+    tree = setup()
     end_setup = time.time()
 
     start_part1 = time.time()
-    res_part1 = part1(base)
+    res_part1 = part1(tree)
     end_part1 = time.time()
 
     start_part2= time.time()
-    res_part2 = part2(base)
+    res_part2 = part2(tree)
     end_part2 = time.time()
 
     print(f"part 1: {res_part1}")
