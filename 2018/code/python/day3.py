@@ -4,7 +4,7 @@ import numpy as np
 import time
 from parse import parse
 
-input_filename = "../input/input_day3.txt"
+input_filename = "../../input/input_day3.txt"
 
 def setup():
     grid = np.zeros((1000, 1000))

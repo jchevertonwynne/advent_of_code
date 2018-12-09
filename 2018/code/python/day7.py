@@ -5,7 +5,7 @@ from parse import parse
 from string import ascii_uppercase
 from collections import defaultdict
 
-input_filename = "../input/input_day7.txt"
+input_filename = "../../input/input_day7.txt"
 
 class Step:
     def __init__(self, letter, time):

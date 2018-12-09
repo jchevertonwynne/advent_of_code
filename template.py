@@ -2,7 +2,7 @@
 
 import time
 
-input_filename = "../input/input_day1.txt"
+input_filename = "../../input/input_day1.txt"
 
 def setup():
     with open(input_filename) as f:

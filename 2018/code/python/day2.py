@@ -3,7 +3,7 @@
 from collections import Counter
 import time
 
-input_filename = "../input/input_day2.txt"
+input_filename = "../../input/input_day2.txt"
 
 def has_num(totals, num):
     for i, v in totals:

@@ -5,7 +5,7 @@ from parse import parse
 from collections import defaultdict
 from functools import reduce
 
-input_filename = "../input/input_day6.txt"
+input_filename = "../../input/input_day6.txt"
 
 def boundary_test(x, y, on_bound_only=False):
     if on_bound_only:

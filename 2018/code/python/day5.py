@@ -4,7 +4,7 @@ from string import ascii_lowercase, ascii_uppercase
 import time
 from functools import reduce
 
-input_filename = "../input/input_day5.txt"
+input_filename = "../../input/input_day5.txt"
 
 def reduce_polarities(polymer):
     out = []

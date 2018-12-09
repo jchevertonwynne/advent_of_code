@@ -5,7 +5,7 @@ from parse import parse
 from itertools import cycle
 from collections import deque
 
-input_filename = "../input/input_day9.txt"
+input_filename = "../../input/input_day9.txt"
 
 def setup():
     with open(input_filename) as f:

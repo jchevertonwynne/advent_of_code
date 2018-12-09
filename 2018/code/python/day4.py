@@ -4,7 +4,7 @@ import time
 from parse import parse
 from collections import Counter
 
-input_filename = "../input/input_day4.txt"
+input_filename = "../../input/input_day4.txt"
 
 def parse_dates():
     records = []

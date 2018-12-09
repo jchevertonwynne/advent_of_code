@@ -2,7 +2,7 @@
 
 import time
 
-input_filename = "../input/input_day8.txt"
+input_filename = "../../input/input_day8.txt"
 
 class Node:
     def __init__(self, ind, child_remainging, data_len):
