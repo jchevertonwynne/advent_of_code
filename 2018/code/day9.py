@@ -25,7 +25,7 @@ def play_game(players, last):
             val = board.popleft()
             scores[player] += marble
             scores[player] += val
-    return max(scores.items(), key=lambda s: s[1])
+    return max(scores.items(), key=lambda s: s[1])[1]
 
 def part1(players, last):
     return play_game(players, last)
