@@ -33,7 +33,7 @@ def main():
     res_part1 = part1(grid)
     end_part1 = time.time()
 
-    start_part2= time.time()
+    start_part2 = time.time()
     res_part2 = part2(grid, vals)
     end_part2 = time.time()
 

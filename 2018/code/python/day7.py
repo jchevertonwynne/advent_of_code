@@ -82,7 +82,7 @@ def main():
     res_part1 = part1(reqs)
     end_part1 = time.time()
 
-    start_part2= time.time()
+    start_part2 = time.time()
     res_part2 = part2(reqs)
     end_part2 = time.time()
 

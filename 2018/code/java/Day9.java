@@ -82,8 +82,8 @@ public class Day9{
         }
 
         long end = System.currentTimeMillis();
-        System.out.println(String.format("it took %1$d milliseconds", end - start));
-        System.out.println(String.format("%.0f" ,highest));
+        System.out.println(String.format("highest score: %.0f" ,highest));
+        System.out.println(String.format("game was played in %1$d milliseconds", end - start));
     }
     public static void main(String[] args) {
         Day9 test = new Day9(9, 32);

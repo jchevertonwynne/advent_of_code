@@ -34,10 +34,6 @@ def find_in_lim(col, coords):
             return y
     return None
 
-# def find_next_lims(top, bot, col, coords):
-#     x, y = col[top]
-#     dist =
-
 def find_next_top(top, col, coords):
     x, y = col[top]
     dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
@@ -121,18 +117,6 @@ def part2(coords):
             total += bottom - top + 1
     return total
 
-    # col = 0
-    # top, bot = find_lims(board[col], coords)
-    # while (top, bot) == (None, None):
-    #     col += 1
-    #     top, bot = find_lims(board[col], coords)
-    #
-    # total += bot - top + 1
-    # while (top, bot) != (None, None):
-    #     col += 1
-    #     top, bot = find_next_lims(top, bot, col, coords)
-
-
 def main():
     start_setup = time.time()
     coords = setup()
@@ -142,7 +126,7 @@ def main():
     res_part1 = part1(coords)
     end_part1 = time.time()
 
-    start_part2= time.time()
+    start_part2 = time.time()
     res_part2 = part2(coords)
     end_part2 = time.time()
 
