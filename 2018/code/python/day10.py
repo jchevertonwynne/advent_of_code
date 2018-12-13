@@ -18,6 +18,16 @@ class Point:
     def iterate(self):
         self.x, self.y = self.x + self.dx, self.y + self.dy
 
+def get_min_max(points, coord):
+    if coord== 'x':
+        min_x = min(points, key=lambda p: p.x).x
+        max_x = max(points, key=lambda p: p.x).x
+        return min_x, max_x
+    else:
+        min_y = min(points, key=lambda p: p.y).y
+        max_y = max(points, key=lambda p: p.y).y
+        return min_y, max_y
+
 def setup():
     points = []
     with open(input_filename) as f:
@@ -28,18 +38,14 @@ def setup():
 
 def part1(points):
     iterations = 0
-    min_y = min(points, key=lambda p: p.y).y
-    max_y = max(points, key=lambda p: p.y).y
+    min_y, max_y = get_min_max(points, 'y')
     while max_y  - min_y > 9:
         iterations += 1
         for point in points:
             point.iterate()
-        min_y = min(points, key=lambda p: p.y).y
-        max_y = max(points, key=lambda p: p.y).y
-    min_x = min(points, key=lambda p: p.x).x
-    max_x = max(points, key=lambda p: p.x).x
-    x_width = max_x - min_x + 1
-    y_width = max_y - min_y + 1
+        min_y, max_y = get_min_max(points, 'y')
+    min_x, max_x = get_min_max(points, 'x')
+    x_width, y_width = max_x - min_x + 1, max_y - min_y + 1
     out = [["." for _ in range(x_width)] for _ in range(y_width)]
     for point in points:
         out[point.y - min_y][point.x - min_x] = "#"
