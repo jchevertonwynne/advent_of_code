@@ -2,6 +2,7 @@
 
 import time
 from parse import parse
+from itertools import count
 from collections import defaultdict
 
 input_filename = "../../input/input_day12.txt"
@@ -14,14 +15,12 @@ class Plants:
         self.max_ind = max(filter(lambda i: plants[i] == "#", plants))
 
     def generation(self):
-        new_plants = {}
-        for ind in range(self.min_ind - 2, self.max_ind + 3):
-            bin_rep = "".join(self.plants.get(i, ".") for i in range(ind - 2, ind + 3))\
-                       .replace("#", "1").replace(".", "0")
-            new_plants[ind] = self.rules.get(int(bin_rep, 2), ".")
-        self.plants = new_plants
-        self.min_ind = min(filter(lambda i: self.plants[i] == "#", self.plants))
-        self.max_ind = max(filter(lambda i: self.plants[i] == "#", self.plants))
+        self.plants = {ind:self.rules.get(int("".join(self.plants.get(i, ".") for i in
+                       range(ind - 2, ind + 3)).replace("#", "1").replace(".", "0"), 2), ".")
+                       for ind in range(self.min_ind - 2, self.max_ind + 3)}
+
+        self.min_ind = min(plant for plant in self.plants if self.plants[plant] == '#')
+        self.max_ind = max(plant for plant in self.plants if self.plants[plant] == '#')
 
     def display(self):
         return str(self.min_ind) + "".join(self.plants.get(i, ".") for i in range(self.min_ind, self.max_ind))
@@ -34,10 +33,9 @@ def setup():
         board = parse("initial state: {}", init)[0]
         plants = {i:v for i, v in enumerate(board)}
         next(f)
-        for rule in f:
-            state, outcome = parse("{} => {}", rule)
-            state = int(state.replace("#", "1").replace(".", "0"), 2)
-            rules[state] = outcome
+        rules =  {int(state.replace("#", "1").replace(".", "0"), 2):outcome
+                  for state, outcome in (parse("{} => {}", rule) for rule in f)}
+
     return Plants(plants, rules)
 
 def part1(plants):
@@ -46,10 +44,15 @@ def part1(plants):
     return sum(filter(lambda p: plants.plants[p] == "#", plants.plants))
 
 def part2(plants):
-    for i in range(50_000_000_000):
-        if not i % 10000:
+    last_diff = 0
+    last = 0
+    for i in count():
+        if not i % 100:
             tot = sum(filter(lambda p: plants.plants[p] == "#", plants.plants))
-            print(f"{i}: {tot}")
+            if tot - last == last_diff:
+                return int(last_diff * (50_000_000_000 / 100) + tot % last_diff)
+            else:
+                last_diff, last = tot - last, tot
         plants.generation()
     return sum(filter(lambda p: plants.plants[p] == "#", plants.plants))
 

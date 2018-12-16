@@ -12,8 +12,7 @@ def parse_dates():
         for row in f.read().splitlines():
             day, time, action = parse("[{} {}] {}", row)
             records.append((day, time, action))
-    records.sort(key=lambda x: x[1])
-    records.sort(key=lambda x: x[0])
+    records.sort(key=lambda x: (x[0], x[1]))
     return records
 
 def setup():

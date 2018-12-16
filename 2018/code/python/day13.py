@@ -14,7 +14,7 @@ class Cart:
         self.crashed = False
 
     def __repr__(self):
-        return f"Cart({self.x}, {self.y}, {self.direction}, {self.turn})"
+        return f"Cart(x: {self.x}, y: {self.y}, dir: {self.direction}, turn: {self.turn})"
 
 class System:
     def __init__(self, carts, tracks):
@@ -29,15 +29,13 @@ class System:
         for cart in self.carts:
             x, y = cart.x, cart.y
             tracks[y][x] = cart.direction
-        for row in tracks:
-            print("".join(row))
+        [print("".join(row)) for row in tracks]
 
     def process(self, first=True):
         self.turns += 1
-        self.carts.sort(key=lambda c: c.x)
-        self.carts.sort(key=lambda c: c.y)
+        self.carts.sort(key=lambda c: (c.y, c.x))
         coords = defaultdict(list)
-        coords.update({(cart.x, cart.y):[cart] for cart in self.carts})
+        coords.update(((cart.x, cart.y),[cart]) for cart in self.carts)
 
         for cart in self.carts:
             if not cart.crashed:
@@ -70,32 +68,11 @@ class System:
 
                     tile = self.tracks[(x, y)]
                     if tile == "/":
-                        if cart.direction == '^':
-                            cart.direction = '>'
-                        elif cart.direction == 'v':
-                            cart.direction = '<'
-                        elif cart.direction == '>':
-                            cart.direction = '^'
-                        else:
-                            cart.direction = 'v'
+                        cart.direction = 'v^><'['<>^v'.find(cart.direction)]
                     if tile == "\\":
-                        if cart.direction == '^':
-                            cart.direction = '<'
-                        elif cart.direction == 'v':
-                            cart.direction = '>'
-                        elif cart.direction == '>':
-                            cart.direction = 'v'
-                        else:
-                            cart.direction = '^'
+                        cart.direction = '^v<>'['<>^v'.find(cart.direction)]
                     if tile == "+":
-                        if cart.direction == '^':
-                            cart.direction = ['<', '^', '>'][cart.turn % 3]
-                        elif cart.direction == 'v':
-                            cart.direction = ['>', 'v', '<'][cart.turn % 3]
-                        elif cart.direction == '>':
-                            cart.direction = ['^', '>', 'v'][cart.turn % 3]
-                        else:
-                            cart.direction = ['v', '<', '^'][cart.turn % 3]
+                        cart.direction = '<^>v<^'['^>v<'.find(cart.direction) + cart.turn % 3]
                         cart.turn += 1
 
         self.carts = [cart for cart in self.carts if len(coords[(cart.x, cart.y)]) == 1]
@@ -103,10 +80,6 @@ class System:
 
 
 def setup():
-    cart_to_rail = {'>': '-',
-                    '<': '-',
-                    'v': '|',
-                    '^': '|'}
     carts = []
     world = {}
     with open(input_filename) as f:
@@ -115,7 +88,7 @@ def setup():
                 if tile != ' ':
                     if tile in "<>^v":
                         carts.append(Cart(x, y, tile))
-                        world[(x, y)] = cart_to_rail[tile]
+                        world[(x, y)] = '--||'['><v^'.find(tile)]
                     else:
                         world[(x, y)] = tile
     return System(carts, world)
@@ -124,20 +97,14 @@ def part1(system):
     run = system.process()
     while run is None:
         run = system.process()
-        # system.print_board()
-    print(system.turns)
     return run
 
 def part2(system):
     while len(system.carts) > 1:
-    # for _ in range(10):
         system.process(False)
-        # system.print_board()
-    print(system.turns)
-    if len(system.carts) > 0:
+    if len(system.carts) == 1:
         cart = system.carts[0]
         return cart.x, cart.y
-    return 0
 
 def main():
     start_setup = time.time()
