@@ -1,0 +1,39 @@
+0  seti 123 0 1 - set [1] to 123
+1  bani 1 456 1 - set [1] to [1] & 456
+
+2  eqri 1 72 1  - check if [1] == 72 and set [1]
+3  addr 1 4 4   - add [1] to [4] - skip next instruction if [1] == 72
+4  seti 0 0 4   - set [4] to 0
+5  seti 0 7 1   - set [1] to 0
+
+6  bori 1 65536 5    - set [5] to [1] | 65536
+7  seti 8595037 6 1  - set [1] to 8595037
+8  bani 5 255 3      - set [3] to [5] & 233
+9  addr 1 3 1        - add [3] into [1]
+10 bani 1 16777215 1 - 16777215 & [1] into [1]
+11 muli 1 65899 1
+12 bani 1 16777215 1
+
+13 gtir 256 5 3 - check if [5] > 256 and store to [3]
+14 addr 3 4 4   - add [3] into [4]
+15 addi 4 1 4   - add 4 into [4] - skip next instructions if [5] > 256
+
+16 seti 27 4 4 - set [4] to 27
+17 seti 0 2 3  - set [3] to 0
+
+18 addi 3 1 2   - add [3] and 1 into [2] -> 1
+19 muli 2 256 2 - multiply [2] by 256 => 256
+
+20 gtrr 2 5 2  - check if [2] > [5] and store to [2]
+21 addr 2 4 4  - add [2] to [4]
+22 addi 4 1 4  - skip next if [2] > 5
+23 seti 25 4 4 - set [4] to 25 - skips next two
+24 addi 3 1 3  - increment [3] by 1
+25 seti 17 8 4 - set[4] to 17
+
+26 setr 3 8 5 - set [5] to [3]
+27 seti 7 5 4 - set[4] to 7
+
+28 eqrr 1 0 3 - check if [0] == [1] and store in [3]
+29 addr 3 4 4 - end program if [0] == [1]
+30 seti 5 9 4

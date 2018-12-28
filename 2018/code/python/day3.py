@@ -6,6 +6,7 @@ from parse import parse
 
 input_filename = "../../input/input_day3.txt"
 
+
 def setup():
     grid = np.zeros((1000, 1000))
     vals = []
@@ -16,13 +17,16 @@ def setup():
             vals.append((id, x_start, y_start, x_size, y_size))
     return grid, vals
 
+
 def part1(grid):
     return (grid >= 2).sum()
+
 
 def part2(grid, vals):
     for id, x_start, y_start, x_size, y_size in vals:
         if (grid[x_start:x_start + x_size, y_start:y_start + y_size] == 1).all():
             return id
+
 
 def main():
     start_setup = time.time()
@@ -43,6 +47,7 @@ def main():
     print(f"part 1 took {end_part1 - start_part1} seconds")
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
+
 
 if __name__ == '__main__':
     main()

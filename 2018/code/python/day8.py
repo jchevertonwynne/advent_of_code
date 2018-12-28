@@ -31,7 +31,6 @@ def read_file():
 def setup():
     nums = read_file()
     base = Node(0, nums[0], nums[1])
-    total = 0
     ind = 0
     stack = [base]
     while stack:

@@ -3,8 +3,6 @@
 import time
 import numpy as np
 
-input_filename = "../../input/input_day1.txt"
-
 def power(x, y, sn):
     id = x + 10
     level = id * y
@@ -13,8 +11,8 @@ def power(x, y, sn):
     hnd = level // 100 % 10
     return hnd - 5
 
-def setup(sn):
-    return np.fromfunction(lambda x, y :power(x, y, sn), (300, 300))
+def setup():
+    return np.fromfunction(lambda x, y :power(x, y, 6042), (300, 300))
 
 def part1(grid):
     best = 0
@@ -42,10 +40,8 @@ def part2(grid):
     return coords
 
 def main():
-    sn = 6042
-
     start_setup = time.time()
-    grid = setup(sn)
+    grid = setup()
     end_setup = time.time()
 
     start_part1 = time.time()

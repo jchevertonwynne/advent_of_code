@@ -1,15 +1,18 @@
 #!/usr/local/bin/python3
 
+from typing import Tuple, List
 from collections import Counter
 import time
 
 input_filename = "../../input/input_day2.txt"
 
-def has_num(totals, num):
-    for i, v in totals:
+
+def has_num(totals: List[Tuple[int, int]], num: int) -> bool:
+    for _, v in totals:
         if v == num:
             return True
     return False
+
 
 def check_sim(str1, str2):
     diff = 0
@@ -20,9 +23,11 @@ def check_sim(str1, str2):
                 return False
     return True
 
+
 def setup():
     with open(input_filename) as f:
         return f.read().splitlines()
+
 
 def part1(ids):
     twos_count = 0
@@ -37,11 +42,13 @@ def part1(ids):
 
     return twos_count * threes_count
 
+
 def part2(ids):
     for ind, id1 in enumerate(ids):
-        for id2 in ids[ind + 1:]:
+        for id2 in ids[ind + 1 :]:
             if check_sim(id1, id2):
                 return "".join(x for x, y in zip(id1, id2) if x == y)
+
 
 def main():
     start_setup = time.time()
@@ -63,5 +70,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

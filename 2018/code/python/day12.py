@@ -11,19 +11,21 @@ class Plants:
     def __init__(self, plants, rules):
         self.plants = plants
         self.rules = rules
-        self.min_ind = min(filter(lambda i: plants[i] == "#", plants))
-        self.max_ind = max(filter(lambda i: plants[i] == "#", plants))
+        plants = [plant for plant in plants if plants[plant] == '#']
+        self.min_ind = min(plants)
+        self.max_ind = max(plants)
 
     def generation(self):
-        self.plants = {ind:self.rules.get(int("".join(self.plants.get(i, ".") for i in
-                       range(ind - 2, ind + 3)).replace("#", "1").replace(".", "0"), 2), ".")
+        self.plants = {ind:self.rules.get("".join(self.plants.get(i, ".") for i in
+                       range(ind - 2, ind + 3)), ".")
                        for ind in range(self.min_ind - 2, self.max_ind + 3)}
 
         self.min_ind = min(plant for plant in self.plants if self.plants[plant] == '#')
         self.max_ind = max(plant for plant in self.plants if self.plants[plant] == '#')
 
     def display(self):
-        return str(self.min_ind) + "".join(self.plants.get(i, ".") for i in range(self.min_ind, self.max_ind))
+        return str(self.min_ind) + "".join(self.plants.get(i, ".")
+                                           for i in range(self.min_ind, self.max_ind))
 
 def setup():
     rules = {}
@@ -33,7 +35,7 @@ def setup():
         board = parse("initial state: {}", init)[0]
         plants = {i:v for i, v in enumerate(board)}
         next(f)
-        rules =  {int(state.replace("#", "1").replace(".", "0"), 2):outcome
+        rules =  {state:outcome
                   for state, outcome in (parse("{} => {}", rule) for rule in f)}
 
     return Plants(plants, rules)

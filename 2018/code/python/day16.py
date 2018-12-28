@@ -2,6 +2,7 @@
 
 import time
 from parse import parse
+from program_codes import Addr, Addi, Mulr, Muli, Banr, Bani, Borr, Bori, Setr, Seti, Gtir, Gtri, Gtrr, Eqir, Eqri, Eqrr
 
 input_filename = "../../input/input_day16.txt"
 
@@ -11,142 +12,11 @@ class InsChange:
         self.ins = ins
         self.result = result
 
-class Rule:
-    def __init__(self, a, b, c):
-        self.a = a
-        self.b = b
-        self.c = c
-
-    def __repr__(self):
-        return f"{type(self)}, {self.a}, {self.b}, {self.c}"
-
-class Addr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        state[self.c] = a + b
-        return state
-
-class Addi(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        state[self.c] = a + self.b
-        return state
-
-class Mulr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        state[self.c] = a * b
-        return state
-
-class Muli(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        state[self.c] = a * self.b
-        return state
-
-class Banr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        state[self.c] = a & b
-        return state
-
-class Bani(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        state[self.c] = a & self.b
-        return state
-
-class Borr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        state[self.c] = a | b
-        return state
-
-class Bori(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        state[self.c] = a | self.b
-        return state
-
-class Setr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        state[self.c] = a
-        return state
-
-class Seti(Rule):
-    def apply_rule(self, state):
-        state[self.c] = self.a
-        return state
-
-class Gtir(Rule):
-    def apply_rule(self, state):
-        b = state[self.b]
-        if self.a > b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-class Gtri(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        if a > self.b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-class Gtrr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        if a > b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-class Eqir(Rule):
-    def apply_rule(self, state):
-        b = state[self.b]
-        if self.a == b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-class Eqri(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        if a == self.b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-class Eqrr(Rule):
-    def apply_rule(self, state):
-        a = state[self.a]
-        b = state[self.b]
-        if a == b:
-            state[self.c] = 1
-        else:
-            state[self.c] = 0
-        return state
-
-def apply_rule(applying, part1=True):
+def apply_rule(applying):
     ins_list = [Addr, Addi, Mulr, Muli, Banr, Bani, Borr, Bori,
                 Setr, Seti, Gtir, Gtri, Gtrr, Eqir, Eqri, Eqrr]
     applied = [(ins, ins(*applying.ins[1:]).apply_rule(applying.before[:])) for ins in ins_list]
-    if part1:
-        return len([res for ins, res in applied if res == applying.result])
-    else:
-        return [ins for ins, res in applied if res == applying.result]
+    return [ins for ins, res in applied if res == applying.result]
 
 def setup():
     with open(input_filename) as f:
@@ -175,14 +45,14 @@ def setup():
 def part1(ins_list):
     total = 0
     for ins in ins_list:
-        if apply_rule(ins) >= 3:
+        if len(apply_rule(ins)) >= 3:
             total += 1
     return total
 
 def part2(ins_list, actual_data):
     opcodes = {}
     for ins in ins_list:
-        res = apply_rule(ins, False)
+        res = apply_rule(ins)
         if ins.ins[0] in opcodes:
             opcodes[ins.ins[0]] = opcodes[ins.ins[0]] & set(res)
         else:

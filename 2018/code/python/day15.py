@@ -5,26 +5,26 @@ import time
 input_filename = "../../input/input_day15.txt"
 
 
-def generate_options(state, world):
+def generate_options(state, world, checked):
     x, y = state.coords
     history = state.history
-    checked = state.checked
     options = []
     for nx, ny in [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]:
         if world[ny][nx] == '.' and (nx, ny) not in checked:
             checked.add((nx, ny))
             new_history = history[:] + [(nx, ny)]
-            options.append(State((nx, ny), new_history, checked))
+            options.append(State((nx, ny), new_history))
     return options
 
 
 def travel(start, end, game):
     world = game.world
-    options = generate_options(State(start, [], set()), world)
+    checked = set()
+    options = generate_options(State(start, []), world, checked)
     while options:
         next_options = []
         for option in options:
-            next_options.extend(generate_options(option, world))
+            next_options.extend(generate_options(option, world, checked))
         options = []
         if next_options:
             acceptable = [next_option for next_option in next_options if next_option.history[-1] == end]
@@ -38,10 +38,9 @@ def travel(start, end, game):
 
 
 class State:
-    def __init__(self, coords, history, checked):
+    def __init__(self, coords, history):
         self.coords = coords
         self.history = history
-        self.checked = checked
 
     def __repr__(self):
         return f"coords: {self.coords}, history: {self.history}"
@@ -99,8 +98,8 @@ class Game:
                         Game.fight(self, fighter, next_to[0])
                     else:
                         weakest = [opp for opp in next_to if opp.hp == next_to[0].hp]
-
-                    Game.fight(self, fighter, weakest)
+                        
+                        Game.fight(self, fighter, weakest)
             tile_options = []
             for opp in opps:
                 tile_options.extend(surr[opp])
