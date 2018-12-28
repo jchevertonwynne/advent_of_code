@@ -1,3 +1,8 @@
-__pycache__
-*.class
-.idea
+# ignore all
+*
+# file whitelist
+!*/
+!*.java
+!*.py
+!*.hs
+!*.txt
