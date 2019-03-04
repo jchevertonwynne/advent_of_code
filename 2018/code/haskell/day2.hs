@@ -1,30 +1,31 @@
 import Prelude hiding (filter)
 import Data.HashMap.Lazy (HashMap, filter, empty, elems, lookupDefault, insert, member)
 import Debug.Trace (traceShow)
+import Data.Maybe
 
 type LetterCount = HashMap Char Int
 
 getCount :: String -> LetterCount
-getCount str = getCountA str (empty :: LetterCount)
+getCount = getCountA (empty :: LetterCount)
 
-getCountA :: String -> LetterCount -> LetterCount
-getCountA (h:t) hm
+getCountA :: LetterCount -> String -> LetterCount
+getCountA hm (h:t)
     | null t    = mhm
-    | otherwise =  getCountA t mhm
+    | otherwise = getCountA mhm t
     where
         inc     = (lookupDefault 0 h hm) + 1
         mhm     = insert h inc hm
 
 checkCount :: LetterCount -> (Int, Int)
 checkCount hm =
-    let c2    = fromEnum ((length (filter (== 2) hm)) >= 1)
-        c3    = fromEnum ((length (filter (== 3) hm)) >= 1)
+    let c2    = fromEnum $ (>= 1) $ length (filter (== 2) hm)
+        c3    = fromEnum $ (>= 1) $ length (filter (== 3) hm)
     in  (c2, c3)
 
 findSimilar :: String -> [String] -> [String] -> String
-findSimilar s l@(h:t) f@(hf:tf)
+findSimilar s  (h:t) f@(hf:tf)
     | similar   = combine s h
-    | null tf   = "this failed"
+    | null tf   = "failed"
     | null t    = findSimilar hf tf tf
     | otherwise = findSimilar s t f
     where
@@ -32,29 +33,25 @@ findSimilar s l@(h:t) f@(hf:tf)
 
 combine :: String -> String -> String
 combine [] []   = ""
-combine fa@(a:ta) (b:tb)
-    | same      = a:(combine ta tb)
+combine (a:ta) (b:tb)
+    | a == b    = a:(combine ta tb)
     | otherwise = combine ta tb
-    where
-        same     = a == b
 
 compareCodes :: String -> String -> Bool
 compareCodes a b = compareCodesA (zip a b) 0
 
 compareCodesA :: [(Char, Char)] -> Int -> Bool
 compareCodesA [] i = i <= 1
-compareCodesA l@((a, b):t) i
+compareCodesA ((a, b):t) i
     | a == b       = compareCodesA t i
     | i == 1       = False
     | otherwise    = compareCodesA t 1
-    where
-        same       = a == b
 
 part1 :: [String] -> Int
 part1 str        = 
     let cnt      = map getCount str
         chk      = map checkCount cnt
-        (n2, n3) = foldr (\(a, b) (c, d) -> (a + c, b + d)) (0, 0) chk
+        (n2, n3) = foldl1 (\(a, b) (c, d) -> (a + c, b + d)) chk
     in  n2 * n3
 
 part2 :: [String] -> String

@@ -7,15 +7,18 @@ from collections import deque
 
 input_filename = "../../input/input_day9.txt"
 
+
 def setup():
     with open(input_filename) as f:
-        for line in f.read().splitlines():
-            players, last = parse("{:d} players; last marble is worth {:d} points", line)
-    return players, last
+        players, last = parse(
+            "{:d} players; last marble is worth {:d} points", f.read().strip()
+        )
+        return players, last
+
 
 def play_game(players, last):
     board = deque([0])
-    scores = {i:0 for i in range(players)}
+    scores = {i: 0 for i in range(players)}
     for player, marble in zip(cycle(range(players)), range(1, last + 1)):
         if marble % 23:
             board.rotate(-2)
@@ -27,11 +30,14 @@ def play_game(players, last):
             scores[player] += val
     return max(scores.items(), key=lambda s: s[1])[1]
 
+
 def part1(players, last):
     return play_game(players, last)
 
+
 def part2(players, last):
     return play_game(players, last * 100)
+
 
 def main():
     start_setup = time.time()
@@ -53,5 +59,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

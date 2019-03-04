@@ -87,7 +87,6 @@ class Game:
             print()
             print(repr(fighter))
             print('i have opps')
-            next_to = []
             next_to = [opp for opp in opps if abs(opp.x - fighter.x) + abs(opp.y - fighter.y) == 1]
             if next_to:
                 if len(next_to) == 1:

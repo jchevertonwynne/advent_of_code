@@ -1,6 +1,7 @@
 from parse import parse
 import time
 
+
 class Rule:
     def __init__(self, a, b, c):
         self.a = a
@@ -10,6 +11,7 @@ class Rule:
     def __repr__(self):
         return f"{type(self).__name__} {self.a} {self.b} {self.c}"
 
+
 class Addr(Rule):
     def apply_rule(self, state):
         a = state[self.a]
@@ -17,11 +19,13 @@ class Addr(Rule):
         state[self.c] = a + b
         return state
 
+
 class Addi(Rule):
     def apply_rule(self, state):
         a = state[self.a]
         state[self.c] = a + self.b
         return state
+
 
 class Mulr(Rule):
     def apply_rule(self, state):
@@ -30,11 +34,13 @@ class Mulr(Rule):
         state[self.c] = a * b
         return state
 
+
 class Muli(Rule):
     def apply_rule(self, state):
         a = state[self.a]
         state[self.c] = a * self.b
         return state
+
 
 class Banr(Rule):
     def apply_rule(self, state):
@@ -43,11 +49,13 @@ class Banr(Rule):
         state[self.c] = a & b
         return state
 
+
 class Bani(Rule):
     def apply_rule(self, state):
         a = state[self.a]
         state[self.c] = a & self.b
         return state
+
 
 class Borr(Rule):
     def apply_rule(self, state):
@@ -56,11 +64,13 @@ class Borr(Rule):
         state[self.c] = a | b
         return state
 
+
 class Bori(Rule):
     def apply_rule(self, state):
         a = state[self.a]
         state[self.c] = a | self.b
         return state
+
 
 class Setr(Rule):
     def apply_rule(self, state):
@@ -68,10 +78,12 @@ class Setr(Rule):
         state[self.c] = a
         return state
 
+
 class Seti(Rule):
     def apply_rule(self, state):
         state[self.c] = self.a
         return state
+
 
 class Gtir(Rule):
     def apply_rule(self, state):
@@ -82,6 +94,7 @@ class Gtir(Rule):
             state[self.c] = 0
         return state
 
+
 class Gtri(Rule):
     def apply_rule(self, state):
         a = state[self.a]
@@ -90,6 +103,7 @@ class Gtri(Rule):
         else:
             state[self.c] = 0
         return state
+
 
 class Gtrr(Rule):
     def apply_rule(self, state):
@@ -101,6 +115,7 @@ class Gtrr(Rule):
             state[self.c] = 0
         return state
 
+
 class Eqir(Rule):
     def apply_rule(self, state):
         b = state[self.b]
@@ -109,6 +124,7 @@ class Eqir(Rule):
         else:
             state[self.c] = 0
         return state
+
 
 class Eqri(Rule):
     def apply_rule(self, state):
@@ -119,6 +135,7 @@ class Eqri(Rule):
             state[self.c] = 0
         return state
 
+
 class Eqrr(Rule):
     def apply_rule(self, state):
         a = state[self.a]
@@ -128,6 +145,7 @@ class Eqrr(Rule):
         else:
             state[self.c] = 0
         return state
+
 
 class Computer:
     def __init__(self, ip, ins):
@@ -151,6 +169,7 @@ class Computer:
             instruction = self.state[self.ip]
             self.ins[instruction].apply_rule(self.state)
             self.state[self.ip] += 1
+
 
 def create_computer(input_filename):
     opcodes = {'addr': Addr, 'addi': Addi,

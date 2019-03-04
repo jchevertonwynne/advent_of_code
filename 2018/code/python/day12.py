@@ -7,25 +7,27 @@ from collections import defaultdict
 
 input_filename = "../../input/input_day12.txt"
 
+
 class Plants:
     def __init__(self, plants, rules):
         self.plants = plants
         self.rules = rules
-        plants = [plant for plant in plants if plants[plant] == '#']
-        self.min_ind = min(plants)
-        self.max_ind = max(plants)
+        plants = [plant for plant in plants if plants[plant] == "#"]
 
     def generation(self):
-        self.plants = {ind:self.rules.get("".join(self.plants.get(i, ".") for i in
-                       range(ind - 2, ind + 3)), ".")
-                       for ind in range(self.min_ind - 2, self.max_ind + 3)}
-
-        self.min_ind = min(plant for plant in self.plants if self.plants[plant] == '#')
-        self.max_ind = max(plant for plant in self.plants if self.plants[plant] == '#')
+        plants = [plant for plant in self.plants if self.plants[plant] == "#"]
+        min_ind = min(plants)
+        max_ind = max(plants)
+        self.plants = {ind: self.rules.get( "".join(self.plants.get(i, ".") 
+                       for i in range(ind - 2, ind + 3)), ".")
+                       for ind in range(min_ind - 2, max_ind + 3)}
 
     def display(self):
-        return str(self.min_ind) + "".join(self.plants.get(i, ".")
-                                           for i in range(self.min_ind, self.max_ind))
+        plants = [plant for plant in self.plants if self.plants[plant] == "#"]
+        min_ind = min(plants)
+        max_ind = max(plants)
+        return str(min_ind) + "".join(self.plants.get(i, ".") for i in range(min_ind, max_ind))
+
 
 def setup():
     rules = {}
@@ -33,17 +35,20 @@ def setup():
     with open(input_filename) as f:
         init = next(f)
         board = parse("initial state: {}", init)[0]
-        plants = {i:v for i, v in enumerate(board)}
+        plants = {i: v for i, v in enumerate(board)}
         next(f)
-        rules =  {state:outcome
-                  for state, outcome in (parse("{} => {}", rule) for rule in f)}
+        rules = {
+            state: outcome for state, outcome in (parse("{} => {}", rule) for rule in f)
+        }
 
     return Plants(plants, rules)
+
 
 def part1(plants):
     for _ in range(20):
         plants.generation()
     return sum(filter(lambda p: plants.plants[p] == "#", plants.plants))
+
 
 def part2(plants):
     last_diff = 0
@@ -57,6 +62,7 @@ def part2(plants):
                 last_diff, last = tot - last, tot
         plants.generation()
     return sum(filter(lambda p: plants.plants[p] == "#", plants.plants))
+
 
 def main():
     start_setup = time.time()
@@ -79,5 +85,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

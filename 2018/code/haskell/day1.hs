@@ -6,7 +6,7 @@ parseLine line@(h:t)
     | otherwise = read line
 
 findLoop :: [Int] -> Int
-findLoop nums = findLoopA 0 nums nums (fromList [0])
+findLoop nums = findLoopA 0 nums nums $ fromList [0]
 
 findLoopA :: Int -> [Int] -> [Int] -> (HashSet Int) -> Int
 findLoopA tot (h:t) n2 set

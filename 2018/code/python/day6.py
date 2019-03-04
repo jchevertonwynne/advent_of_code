@@ -7,6 +7,7 @@ from functools import reduce
 
 input_filename = "../../input/input_day6.txt"
 
+
 def boundary_test(x, y, on_bound_only=False):
     if on_bound_only:
         op = int.__eq__
@@ -20,6 +21,7 @@ def boundary_test(x, y, on_bound_only=False):
         return op(300, y - x)
     return op(x + y, 100)
 
+
 def find_lims(col, coords):
     top = find_in_lim(col, coords)
     if top is None:
@@ -27,59 +29,63 @@ def find_lims(col, coords):
     else:
         return top, find_in_lim(reversed(col), coords)
 
+
 def find_in_lim(col, coords):
     for (x, y) in col:
-        dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+        dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
         if dist <= 10_000:
             return y
     return None
 
+
 def find_next_top(top, col, coords):
     x, y = col[top]
-    dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+    dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
     if dist > 10_000:
         while dist > 10_000:
             top += 1
             if top == len(col) + 1:
                 return None
             x, y = col[top]
-            dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+            dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
         return top - 1
     while dist < 10_000:
         top -= 1
         if top == -1:
             return None
         x, y = col[top]
-        dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+        dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
     return top + 1
 
 
 def find_next_bot(bot, col, coords):
     x, y = col[bot]
-    dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+    dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
     if dist > 10_000:
         while dist > 10_000:
             bot -= 1
             if bot == -1:
                 return None
             x, y = col[bot]
-            dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+            dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
         return bot + 1
     while dist < 10_000:
         bot += 1
         if bot == len(col) + 1:
             return None
         x, y = col[bot]
-        dist = sum(abs(x - i) + abs( y - j) for i, j in coords)
+        dist = sum(abs(x - i) + abs(y - j) for i, j in coords)
     return bot - 1
+
 
 def setup():
     coords = set()
     with open(input_filename) as f:
         for coord in f.read().splitlines():
-            x, y = parse('{:d}, {:d}', coord)
+            x, y = parse("{:d}, {:d}", coord)
             coords.add((x, y))
     return coords
+
 
 def part1(coords):
     infinite = set()
@@ -108,6 +114,7 @@ def part1(coords):
         if coord not in infinite:
             return best_counts[coord]
 
+
 def part2(coords):
     total = 0
     board = [[(x, y) for y in range(-150, 551)] for x in range(-150, 551)]
@@ -116,6 +123,7 @@ def part2(coords):
         if (top, bottom) != (None, None):
             total += bottom - top + 1
     return total
+
 
 def main():
     start_setup = time.time()
@@ -137,5 +145,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

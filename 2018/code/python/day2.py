@@ -45,7 +45,7 @@ def part1(ids):
 
 def part2(ids):
     for ind, id1 in enumerate(ids):
-        for id2 in ids[ind + 1 :]:
+        for id2 in ids[ind + 1:]:
             if check_sim(id1, id2):
                 return "".join(x for x, y in zip(id1, id2) if x == y)
 

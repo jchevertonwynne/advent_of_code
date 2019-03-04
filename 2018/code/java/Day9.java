@@ -1,11 +1,15 @@
 import java.util.HashMap;
-
+import java.util.Map;
+import java.util.Collections;
+import java.util.LinkedList;
+ 
 public class Day9{
     public class Board{
         private class Node{
             public int value;
             public Node left;
             public Node right;
+            
             public Node(int val) {
                 value = val;
                 left = null;
@@ -23,12 +27,12 @@ public class Day9{
         }
 
         public void addNode(int val) {
-            Node adding = new Node(val);
-            adding.left = base.left;
-            adding.right = base;
-            base.left.right = adding;
-            base.left = adding;
-            base = adding;
+            Node newNode = new Node(val);
+            newNode.left = base.left;
+            newNode.right = base;
+            base.left.right = newNode;
+            base.left = newNode;
+            base = newNode;
         }
 
         public int deleteNode() {
@@ -56,7 +60,7 @@ public class Day9{
         long start = System.currentTimeMillis();
         Board game = new Board();
         HashMap<Integer, Double> scores = new HashMap<>();
-
+        
         for (int marble = 1; marble < maxMarble; marble++) {
             if (marble % 23 == 0) {
                 game.anticlockwise(7);
@@ -70,25 +74,57 @@ public class Day9{
                 game.addNode(marble);
             }
         }
-
-        double highest = 0;
-        double temp;
-
-        for (int player: scores.keySet()) {
-            temp = scores.get(player);
-            if (temp > highest) {
-                highest = temp;
-            }
-        }
-
+        
+        double highest = Collections.max(
+                scores.entrySet(),
+                Map.Entry.comparingByValue()
+        ).getValue();
+        
         long end = System.currentTimeMillis();
         System.out.println(String.format("highest score: %.0f" ,highest));
         System.out.println(String.format("game was played in %1$d milliseconds", end - start));
     }
-    public static void main(String[] args) {
-        Day9 test = new Day9(9, 32);
-        Day9 part1 = new Day9(411, 71058);
-        Day9 part2 = new Day9(411, 71058 * 100);
 
+    // public Day9(int maxPlayers, int maxMarble) {
+    //     long start = System.currentTimeMillis();
+    //     LinkedList<Integer> game = new LinkedList<Integer>();
+    //     HashMap<Integer, Double> scores = new HashMap<>();
+
+    //     for (int marble = 1; marble < maxMarble; marble++) {
+    //         if (marble % 23 == 0) {
+    //             for (int r = 0; r < 7; r++) {
+    //                 int ele = game.removeFirst();
+    //                 game.addLast(ele);
+    //             }
+    //             int value = game.removeFirst();
+    //             int scoring = marble % maxPlayers;
+    //             double curr = scores.getOrDefault(scoring, (double)0);
+    //             scores.put(scoring, curr + marble + value);
+    //         }
+    //         else {
+    //             if (game.size() >= 2) {
+    //                 for (int r = 0; r < 2; r++) {
+    //                     int ele = game.removeLast();
+    //                     game.addFirst(ele);
+    //                 }
+    //             }
+    //             game.addFirst(marble);
+    //         }
+    //     }
+
+    //     double highest = Collections.max(
+    //             scores.entrySet(),
+    //             Map.Entry.comparingByValue()
+    //     ).getValue();
+
+    //     long end = System.currentTimeMillis();
+    //     System.out.println(String.format("highest score: %.0f" ,highest));
+    //     System.out.println(String.format("game was played in %1$d milliseconds", end - start));
+    // }
+
+    public static void main(String[] args) {
+        new Day9(9, 32);
+        new Day9(411, 71058);
+        new Day9(411, 71058 * 100);
     }
 }

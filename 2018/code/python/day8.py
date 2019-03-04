@@ -4,6 +4,7 @@ import time
 
 input_filename = "../../input/input_day8.txt"
 
+
 class Node:
     def __init__(self, ind, child_remainging, data_len):
         self.ind = ind
@@ -16,17 +17,25 @@ class Node:
         return f"Node(ind: {self.ind}, metadata items:{self.data_len}, children:{len(self.children)})"
 
     def metadata_sum(self):
-        return sum(self.data_vals) + sum(child.metadata_sum() for child in self.children)
+        return sum(self.data_vals) + sum(
+            child.metadata_sum() for child in self.children
+        )
 
     @staticmethod
     def value(node):
         if not node.children:
             return sum(node.data_vals)
-        return sum(Node.value(node.children[data_val - 1]) for data_val in node.data_vals if data_val <= len(node.children))
+        return sum(
+            Node.value(node.children[data_val - 1])
+            for data_val in node.data_vals
+            if data_val <= len(node.children)
+        )
+
 
 def read_file():
     with open(input_filename) as f:
-        return [int(i) for i in f.read().split(' ')]
+        return [int(i) for i in f.read().split(" ")]
+
 
 def setup():
     nums = read_file()
@@ -37,7 +46,7 @@ def setup():
         top = stack[-1]
         if top.child_remaining == 0:
             stack.pop()
-            top.data_vals = nums[(ind + 2):(ind + top.data_len + 2)]
+            top.data_vals = nums[(ind + 2) : (ind + top.data_len + 2)]
             ind += top.data_len
         else:
             ind += 2
@@ -47,11 +56,14 @@ def setup():
             top.children.append(next)
     return base
 
+
 def part1(tree):
     return tree.metadata_sum()
 
+
 def part2(tree):
     return tree.value(tree)
+
 
 def main():
     start_setup = time.time()
@@ -73,5 +85,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

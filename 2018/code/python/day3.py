@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3
 
+from typing import Tuple, List
 import numpy as np
 import time
 from parse import parse
@@ -7,28 +8,30 @@ from parse import parse
 input_filename = "../../input/input_day3.txt"
 
 
-def setup():
+def setup() -> Tuple[np.ndarray, List[Tuple[int, int, int, int, int]]]:
     grid = np.zeros((1000, 1000))
     vals = []
     with open(input_filename) as f:
         for row in f.read().splitlines():
-            id, x_start, y_start, x_size, y_size = parse("#{:d} @ {:d},{:d}: {:d}x{:d}", row)
-            grid[x_start:x_start + x_size, y_start:y_start + y_size] += 1
+            id, x_start, y_start, x_size, y_size = parse(
+                "#{:d} @ {:d},{:d}: {:d}x{:d}", row
+            )
+            grid[x_start : x_start + x_size, y_start : y_start + y_size] += 1
             vals.append((id, x_start, y_start, x_size, y_size))
     return grid, vals
 
 
-def part1(grid):
+def part1(grid: np.ndarray) -> int:
     return (grid >= 2).sum()
 
 
-def part2(grid, vals):
+def part2(grid: np.ndarray, vals: List[Tuple[int, int, int, int, int]]) -> int:
     for id, x_start, y_start, x_size, y_size in vals:
-        if (grid[x_start:x_start + x_size, y_start:y_start + y_size] == 1).all():
+        if (grid[x_start : x_start + x_size, y_start : y_start + y_size] == 1).all():
             return id
 
 
-def main():
+def main() -> None:
     start_setup = time.time()
     grid, vals = setup()
     end_setup = time.time()
@@ -49,5 +52,5 @@ def main():
     print(f"overall took {end_part2 - start_setup} seconds")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

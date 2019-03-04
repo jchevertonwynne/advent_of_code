@@ -5,6 +5,7 @@ import time
 
 input_filename = "../../input/input_day5.txt"
 
+
 def reduce_polarities(polymer):
     out = []
     for char in polymer:
@@ -16,22 +17,25 @@ def reduce_polarities(polymer):
             out.append(char)
     return "".join(out)
 
+
 def setup():
     with open(input_filename) as f:
-        contents = f.read().strip()
-        return contents
+        return f.read().strip()
+
 
 def part1(polymer):
     return reduce_polarities(polymer)
 
+
 def part2(polymer):
     shortest = len(polymer)
     for a1, a2 in zip(ascii_lowercase, ascii_uppercase):
-        modified_polymer = polymer.replace(a1, '').replace(a2, '')
+        modified_polymer = polymer.replace(a1, "").replace(a2, "")
         modified_shortened = reduce_polarities(modified_polymer)
         if len(modified_shortened) < shortest:
             shortest = len(modified_shortened)
     return shortest
+
 
 def main():
     start_setup = time.time()
@@ -43,7 +47,7 @@ def main():
     res_part1 = len(reduced)
     end_part1 = time.time()
 
-    start_part2= time.time()
+    start_part2 = time.time()
     res_part2 = part2(reduced)
     end_part2 = time.time()
 
@@ -54,5 +58,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

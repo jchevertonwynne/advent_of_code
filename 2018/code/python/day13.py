@@ -5,6 +5,7 @@ from collections import Counter, defaultdict
 
 input_filename = "../../input/input_day13.txt"
 
+
 class Cart:
     def __init__(self, x, y, direction):
         self.x = x
@@ -14,7 +15,10 @@ class Cart:
         self.crashed = False
 
     def __repr__(self):
-        return f"Cart(x: {self.x}, y: {self.y}, dir: {self.direction}, turn: {self.turn})"
+        return (
+            f"Cart(x: {self.x}, y: {self.y}, dir: {self.direction}, turn: {self.turn})"
+        )
+
 
 class System:
     def __init__(self, carts, tracks):
@@ -25,7 +29,10 @@ class System:
         self.max_y = max(self.tracks, key=lambda xy: xy[1])[1]
 
     def print_board(self):
-        tracks = [[self.tracks.get((x, y), ' ') for x in range(self.max_x + 1)] for y in range(self.max_y + 1)]
+        tracks = [
+            [self.tracks.get((x, y), " ") for x in range(self.max_x + 1)]
+            for y in range(self.max_y + 1)
+        ]
         for cart in self.carts:
             x, y = cart.x, cart.y
             tracks[y][x] = cart.direction
@@ -35,7 +42,7 @@ class System:
         self.turns += 1
         self.carts.sort(key=lambda c: (c.y, c.x))
         coords = defaultdict(list)
-        coords.update(((cart.x, cart.y),[cart]) for cart in self.carts)
+        coords.update(((cart.x, cart.y), [cart]) for cart in self.carts)
 
         for cart in self.carts:
             if not cart.crashed:
@@ -48,11 +55,11 @@ class System:
                 else:
                     coords[(x, y)].remove(cart)
 
-                    if cart.direction == '^':
+                    if cart.direction == "^":
                         y -= 1
-                    elif cart.direction == 'v':
+                    elif cart.direction == "v":
                         y += 1
-                    elif cart.direction == '>':
+                    elif cart.direction == ">":
                         x += 1
                     else:
                         x -= 1
@@ -68,11 +75,11 @@ class System:
 
                     tile = self.tracks[(x, y)]
                     if tile == "/":
-                        cart.direction = 'v^><'['<>^v'.find(cart.direction)]
+                        cart.direction = "v^><"["<>^v".find(cart.direction)]
                     if tile == "\\":
-                        cart.direction = '^v<>'['<>^v'.find(cart.direction)]
+                        cart.direction = "^v<>"["<>^v".find(cart.direction)]
                     if tile == "+":
-                        cart.direction = '<^>v<^'['^>v<'.find(cart.direction) + cart.turn % 3]
+                        cart.direction = "<^>v<^"["^>v<".find(cart.direction) + cart.turn % 3]
                         cart.turn += 1
 
         self.carts = [cart for cart in self.carts if len(coords[(cart.x, cart.y)]) == 1]
@@ -85,13 +92,14 @@ def setup():
     with open(input_filename) as f:
         for y, row in enumerate(f):
             for x, tile in enumerate(row.rstrip()):
-                if tile != ' ':
+                if tile != " ":
                     if tile in "<>^v":
                         carts.append(Cart(x, y, tile))
-                        world[(x, y)] = '--||'['><v^'.find(tile)]
+                        world[(x, y)] = "--||"["><v^".find(tile)]
                     else:
                         world[(x, y)] = tile
     return System(carts, world)
+
 
 def part1(system):
     run = system.process()
@@ -99,12 +107,14 @@ def part1(system):
         run = system.process()
     return run
 
+
 def part2(system):
     while len(system.carts) > 1:
         system.process(False)
     if len(system.carts) == 1:
         cart = system.carts[0]
         return cart.x, cart.y
+
 
 def main():
     start_setup = time.time()
@@ -127,5 +137,6 @@ def main():
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
