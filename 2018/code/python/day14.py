@@ -2,6 +2,7 @@
 
 import time
 
+
 def part1():
     recipes = [3, 7, 1, 0, 1, 0, 1]
     elf_a, elf_b = 6, 4
@@ -18,6 +19,7 @@ def part1():
         elf_b += recipes[elf_b] + 1
         elf_b %= recs
     return "".join(str(r) for r in recipes[598701:598711])
+
 
 def part2():
     wanted = [5, 9, 8, 7, 0, 1]
@@ -41,6 +43,7 @@ def part2():
         elif recipes[-6:] == wanted:
             return len(recipes) - 6
 
+
 def main():
     start_part1 = time.time()
     res_part1 = part1()
@@ -55,6 +58,7 @@ def main():
     print(f"part 1 took {end_part1 - start_part1} seconds")
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_part1} seconds")
+
 
 if __name__ == '__main__':
     main()

@@ -75,9 +75,10 @@ class Game:
         self.turn += 1
         self.fighters.sort(key=lambda f: (f.y, f.x))
 
-        surr = {f:[(nx, ny) for nx, ny in [(f.x, f.y + 1), (f.x, f.y - 1),
-                  (f.x + 1, f.y), (f.x - 1, f.y)] if self.world[ny][nx] == '.']
-                  for f in self.fighters}
+        surr = {f: [(nx, ny)
+                    for nx, ny in [(f.x, f.y + 1), (f.x, f.y - 1), (f.x + 1, f.y), (f.x - 1, f.y)]
+                    if self.world[ny][nx] == '.']
+                for f in self.fighters}
 
         for fighter in self.fighters:
             f_x, f_y = fighter.x, fighter.y

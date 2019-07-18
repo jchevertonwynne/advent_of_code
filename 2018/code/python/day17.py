@@ -5,9 +5,9 @@ from parse import parse
 
 input_filename = "../../input/input_day17.txt"
 
+
 def setup():
-    world = {}
-    world[(0, 500)] = '+'
+    world = {(0, 500): '+'}
     with open(input_filename) as f:
         for line in f.read().splitlines():
             if line.startswith('x'):
@@ -19,7 +19,6 @@ def setup():
                 for x in range(x1, x2 + 1):
                     world[(x, y)] = "#"
     return world
-
 
 
 def part1(world):
@@ -45,8 +44,10 @@ def part1(world):
             active.pop()
     return len([i for i, v in world.items() if v in '|~'])
 
+
 def part2():
     return 0
+
 
 def main():
     start_setup = time.time()
@@ -67,6 +68,7 @@ def main():
     print(f"part 1 took {end_part1 - start_part1} seconds")
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
+
 
 if __name__ == '__main__':
     main()

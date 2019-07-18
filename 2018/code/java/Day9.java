@@ -85,43 +85,6 @@ public class Day9{
         System.out.println(String.format("game was played in %1$d milliseconds", end - start));
     }
 
-    // public Day9(int maxPlayers, int maxMarble) {
-    //     long start = System.currentTimeMillis();
-    //     LinkedList<Integer> game = new LinkedList<Integer>();
-    //     HashMap<Integer, Double> scores = new HashMap<>();
-
-    //     for (int marble = 1; marble < maxMarble; marble++) {
-    //         if (marble % 23 == 0) {
-    //             for (int r = 0; r < 7; r++) {
-    //                 int ele = game.removeFirst();
-    //                 game.addLast(ele);
-    //             }
-    //             int value = game.removeFirst();
-    //             int scoring = marble % maxPlayers;
-    //             double curr = scores.getOrDefault(scoring, (double)0);
-    //             scores.put(scoring, curr + marble + value);
-    //         }
-    //         else {
-    //             if (game.size() >= 2) {
-    //                 for (int r = 0; r < 2; r++) {
-    //                     int ele = game.removeLast();
-    //                     game.addFirst(ele);
-    //                 }
-    //             }
-    //             game.addFirst(marble);
-    //         }
-    //     }
-
-    //     double highest = Collections.max(
-    //             scores.entrySet(),
-    //             Map.Entry.comparingByValue()
-    //     ).getValue();
-
-    //     long end = System.currentTimeMillis();
-    //     System.out.println(String.format("highest score: %.0f" ,highest));
-    //     System.out.println(String.format("game was played in %1$d milliseconds", end - start));
-    // }
-
     public static void main(String[] args) {
         new Day9(9, 32);
         new Day9(411, 71058);

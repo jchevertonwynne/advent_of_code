@@ -5,6 +5,7 @@ from parse import parse
 
 input_filename = "../../input/input_day10.txt"
 
+
 class Point:
     def __init__(self, x, y, dx, dy):
         self.x = x
@@ -18,8 +19,9 @@ class Point:
     def iterate(self):
         self.x, self.y = self.x + self.dx, self.y + self.dy
 
+
 def get_min_max(points, coord):
-    if coord== 'x':
+    if coord == 'x':
         min_x = min(points, key=lambda p: p.x).x
         max_x = max(points, key=lambda p: p.x).x
         return min_x, max_x
@@ -27,6 +29,7 @@ def get_min_max(points, coord):
         min_y = min(points, key=lambda p: p.y).y
         max_y = max(points, key=lambda p: p.y).y
         return min_y, max_y
+
 
 def setup():
     points = []
@@ -36,10 +39,11 @@ def setup():
             points.append(Point(x, y, dx, dy))
     return points
 
+
 def part1(points):
     iterations = 0
     min_y, max_y = get_min_max(points, 'y')
-    while max_y  - min_y > 9:
+    while max_y - min_y > 9:
         iterations += 1
         for point in points:
             point.iterate()
@@ -52,6 +56,7 @@ def part1(points):
     for row in out:
         print("".join(row))
     return iterations
+
 
 def main():
     start_setup = time.time()
@@ -66,6 +71,7 @@ def main():
     print(f"setup took {end_setup - start_setup} seconds")
     print(f"part 1 & 2 took {end_part1 - start_part1} seconds")
     print(f"overall took {end_part1 - start_setup} seconds")
+
 
 if __name__ == '__main__':
     main()

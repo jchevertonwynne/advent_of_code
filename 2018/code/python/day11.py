@@ -3,16 +3,19 @@
 import time
 import numpy as np
 
+
 def power(x, y, sn):
-    id = x + 10
-    level = id * y
+    box_id = x + 10
+    level = box_id * y
     level += sn
-    level *= id
+    level *= box_id
     hnd = level // 100 % 10
     return hnd - 5
 
+
 def setup():
     return np.fromfunction(lambda x, y :power(x, y, 6042), (300, 300))
+
 
 def part1(grid):
     best = 0
@@ -24,6 +27,7 @@ def part1(grid):
                 best = temp
                 coords = x, y
     return coords
+
 
 def part2(grid):
     best = 0
@@ -38,6 +42,7 @@ def part2(grid):
                     best = temp
                     coords = x + 1, y + 1, size
     return coords
+
 
 def main():
     start_setup = time.time()
@@ -58,6 +63,7 @@ def main():
     print(f"part 1 took {end_part1 - start_part1} seconds")
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
+
 
 if __name__ == '__main__':
     main()

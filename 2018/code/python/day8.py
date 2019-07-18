@@ -6,9 +6,9 @@ input_filename = "../../input/input_day8.txt"
 
 
 class Node:
-    def __init__(self, ind, child_remainging, data_len):
+    def __init__(self, ind, child_remaining, data_len):
         self.ind = ind
-        self.child_remaining = child_remainging
+        self.child_remaining = child_remaining
         self.data_len = data_len
         self.children = []
         self.data_vals = []
@@ -46,14 +46,14 @@ def setup():
         top = stack[-1]
         if top.child_remaining == 0:
             stack.pop()
-            top.data_vals = nums[(ind + 2) : (ind + top.data_len + 2)]
+            top.data_vals = nums[(ind + 2): (ind + top.data_len + 2)]
             ind += top.data_len
         else:
             ind += 2
-            next = Node(ind, nums[ind], nums[ind + 1])
-            stack.append(next)
+            next_node = Node(ind, nums[ind], nums[ind + 1])
+            stack.append(next_node)
             top.child_remaining -= 1
-            top.children.append(next)
+            top.children.append(next_node)
     return base
 
 

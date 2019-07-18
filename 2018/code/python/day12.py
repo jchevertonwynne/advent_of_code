@@ -12,13 +12,12 @@ class Plants:
     def __init__(self, plants, rules):
         self.plants = plants
         self.rules = rules
-        plants = [plant for plant in plants if plants[plant] == "#"]
 
     def generation(self):
         plants = [plant for plant in self.plants if self.plants[plant] == "#"]
         min_ind = min(plants)
         max_ind = max(plants)
-        self.plants = {ind: self.rules.get( "".join(self.plants.get(i, ".") 
+        self.plants = {ind: self.rules.get("".join(self.plants.get(i, ".")
                        for i in range(ind - 2, ind + 3)), ".")
                        for ind in range(min_ind - 2, max_ind + 3)}
 
@@ -30,8 +29,6 @@ class Plants:
 
 
 def setup():
-    rules = {}
-    plants = {}
     with open(input_filename) as f:
         init = next(f)
         board = parse("initial state: {}", init)[0]

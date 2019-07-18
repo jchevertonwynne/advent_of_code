@@ -6,17 +6,20 @@ from program_codes import Addr, Addi, Mulr, Muli, Banr, Bani, Borr, Bori, Setr, 
 
 input_filename = "../../input/input_day16.txt"
 
+
 class InsChange:
     def __init__(self, before, ins, result):
         self.before = before
         self.ins = ins
         self.result = result
 
+
 def apply_rule(applying):
     ins_list = [Addr, Addi, Mulr, Muli, Banr, Bani, Borr, Bori,
                 Setr, Seti, Gtir, Gtri, Gtrr, Eqir, Eqri, Eqrr]
     applied = [(ins, ins(*applying.ins[1:]).apply_rule(applying.before[:])) for ins in ins_list]
     return [ins for ins, res in applied if res == applying.result]
+
 
 def setup():
     with open(input_filename) as f:
@@ -27,20 +30,20 @@ def setup():
         lines = iter(lines)
         while True:
             line = next(lines)
-            if line == '':
+            if line:
+                prev_space = False
+                before = list(parse("Before: [{:d}, {:d}, {:d}, {:d}]", line))
+                ins = tuple(parse("{:d} {:d} {:d} {:d}", next(lines)))
+                after = list(parse("After:  [{:d}, {:d}, {:d}, {:d}]", next(lines)))
+                part1_ins.append(InsChange(before, ins, after))
+            else:
                 if prev_space:
                     next(lines)
                     for line in lines:
                         part2_ins.append(tuple(parse('{:d} {:d} {:d} {:d}', line)))
                     return part1_ins, part2_ins
                 prev_space = True
-            else:
-                prev_space = False
-                before = list(parse("Before: [{:d}, {:d}, {:d}, {:d}]", line))
-                ins = tuple(parse("{:d} {:d} {:d} {:d}", next(lines)))
-                after = list(parse("After:  [{:d}, {:d}, {:d}, {:d}]", next(lines)))
-                part1_ins.append(InsChange(before, ins, after))
-        return part1, part2
+
 
 def part1(ins_list):
     total = 0
@@ -48,6 +51,7 @@ def part1(ins_list):
         if len(apply_rule(ins)) >= 3:
             total += 1
     return total
+
 
 def part2(ins_list, actual_data):
     opcodes = {}
@@ -75,6 +79,7 @@ def part2(ins_list, actual_data):
         apply.apply_rule(state)
     return state[0]
 
+
 def main():
     start_setup = time.time()
     ins1, ins2 = setup()
@@ -94,6 +99,7 @@ def main():
     print(f"part 1 took {end_part1 - start_part1} seconds")
     print(f"part 2 took {end_part2 - start_part2} seconds")
     print(f"overall took {end_part2 - start_setup} seconds")
+
 
 if __name__ == '__main__':
     main()
