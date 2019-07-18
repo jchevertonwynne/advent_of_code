@@ -2,7 +2,8 @@
 *
 # file whitelist
 !*/
-!*.java
-!*.py
 !*.hs
+!*.java
+!*.nim
+!*.py
 !*.txt
