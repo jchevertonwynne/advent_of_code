@@ -8,15 +8,17 @@ input_filename = "../../input/input_day20.txt"
 
 def setup():
     frame = get_frame()
-    world = {(0, 0): '@',
-             (1, 0): '?',
-             (-1, 0): '?',
-             (0, 1): '?',
-             (0, -1): '?',
-             (1, 1): '#',
-             (-1, -1): '#',
-             (1, -1): '#',
-             (-1, 1): '#'}
+    world = {
+        (0, 0): '@',
+        (1, 0): '?',
+        (-1, 0): '?',
+        (0, 1): '?',
+        (0, -1): '?',
+        (1, 1): '#',
+        (-1, -1): '#',
+        (1, -1): '#',
+        (-1, 1): '#'
+    }
     x, y = 0, 0
     dir_list(world, frame, x, y)
     return world
@@ -42,16 +44,9 @@ def get_frame():
 
 def build_walls(world, x, y):
     world[(x, y)] = '.'
-
-    if (x, y + 1) not in world:
-        world[(x, y + 1)] = '?'
-    if (x, y - 1) not in world:
-        world[(x, y - 1)] = '?'
-    if (x + 1, y) not in world:
-        world[(x + 1, y)] = '?'
-    if (x - 1, y) not in world:
-        world[(x - 1, y)] = '?'
-    return world
+    for nx, ny in [(x, y + 1), (x , y - 1), (x + 1, y), (x - 1, y)]:
+        if (nx, ny) not in world:
+            world[(nx, ny)] = '?'
 
 
 def navigate(world, chars, x, y):
